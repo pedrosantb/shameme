@@ -1,15 +1,16 @@
 'use client'
 
 import Image from "next/image";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { newRoast } from "../services/api/roast";
+import AddGoal from "@components/AddGoal"
 
 export default function Home() {
   
   const [ goal, setGoal ] = useState("");
   const [ roast, setRoast ] = useState();
-  const [ button, setButton ] = useState(0);
+
   
   useEffect(() => {
 
@@ -21,25 +22,22 @@ export default function Home() {
     }
 
     fetchLLM();
-  }, [button])
 
-  const handleButton = () => {
-    setButton(b => b + 1)
+
+  }, [goal])
+
+  const handleButton = (goal) => {
+    setGoal(goal);
   }
 
-  const handleInput = event => {
-    setGoal(event.target.value);
-  };
-  
+
   return (
     <> 
-            <div className="w-2/3 m-16">
-              {roast && <p>{roast}</p>}
-            </div>
+            <div className="w-full h-screen flex flex-col items-center justify-center m-16">
 
-            <div className="w-4/5 flex justify-center align-center gap-2">
-              <input className="p-2" onChange={handleInput} placeholder="Enter your next goal"/>
-              <button className="p-2" onClick={handleButton}>Roast Me! </button>
+              {roast && <p className="mb-10 w-2/3 text-4xl">{roast}</p>}
+              <AddGoal handleButton={handleButton} />
+              
             </div>
 
   

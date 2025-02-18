@@ -1,0 +1,41 @@
+services:
+    shameme_db:
+        image: mysql:8.2.0
+        restart: always
+        container_name: shameme-db
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - '3306:3306'
+        expose:
+            - '3306'
+        volumes:
+            - shameme_db:/var/lib/mysql
+        healthcheck:
+            test: ["CMD", "mysqladmin", "ping","-h", "localhost"]
+            timeout: 5s
+            retries: 15
+
+    shameme_app:
+        build:
+            context: ./
+            dockerfile: Dockerfile.dev
+        restart: always
+        env_file:
+            - ./.env
+        container_name: shameme-app
+        volumes:
+            - "./:/app"
+            # - "/app/node_modules"
+        expose:
+            - '3000'
+        ports:
+            - '3000:3000'
+        command: "npm run dev"
+        
+volumes:
+    shameme_db:
+

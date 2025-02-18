@@ -1,0 +1,16 @@
+# Use a imagem Node.js como base
+FROM node:alpine
+
+RUN mkdir app/
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY . /app/
+
+EXPOSE 3000
+
+CMD [ "npm", "run", "dev", "--", "-p", "3000" ]
