@@ -8,8 +8,8 @@ export const AddUser = async (data) => {
     try {
         const connection = await mysql.createConnection(connectionParams);
         
-        let query = 'INSERT INTO User (email, username) VALUES (?, ?);'
-        let values = [data.email, data.username]
+        let query = 'INSERT INTO User (email, username, phone) VALUES (?, ?, ?);'
+        let values = [data.email, data.username, data.phone]
 
         const [result] = await connection.execute(query, values);
 

@@ -10,7 +10,7 @@ export const UpdateUser = async (id, data) => {
         return [{ error: 'User ID is required' }, 400];
     }
 
-    let query = 'UPDATE users SET';
+    let query = 'UPDATE User SET';
     let values = [];
     const fieldsToUpdate = [];
 

@@ -15,9 +15,11 @@ export async function GET(req, { params }) {
     }
 }
 
-export async function PUT(req) {
+export async function PUT(req, { params }) {
     const { id } = params;
     const body = await req.json();
+
+    console.log(id, body);
 
     if (!body || Object.keys(body).length === 0) {
         return NextResponse.json({ error: 'Request body cannot be empty' }, { status: 400 });

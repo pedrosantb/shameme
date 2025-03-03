@@ -1,5 +1,5 @@
 import { NextResponse  } from "next/server";
-
+import { AddUser } from "@/services/user/addUser";
 
 export async function POST(req) {
     const body = await req.json();
