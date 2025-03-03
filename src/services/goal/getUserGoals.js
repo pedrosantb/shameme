@@ -3,12 +3,12 @@ import { GetDBSettings } from "../db/connect";
 
 const connectionParams = GetDBSettings();
 
-export const GetGoal = async (id) => {
+export const GetUserGoals = async (id) => {
     try {
         
         const connection = await mysql.createConnection(connectionParams);
         
-        let query = 'SELECT * FROM Goals WHERE id = ?;'
+        let query = 'SELECT * FROM Goals WHERE user_id = ?;'
         let values = [id]
 
         const [result] = await connection.execute(query, values);
