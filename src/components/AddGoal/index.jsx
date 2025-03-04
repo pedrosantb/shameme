@@ -15,7 +15,9 @@ const AddGoal = ({ handleButton }) => {
         <div className='relative w-2/3 text-4xl'>
             <FaRocket className='absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500' />
             <input type="text" onChange={(event) => setGoal(event.target.value)} placeholder="Add a goal..." className={` w-full ${styles.input}`} />
-            <button onClick={() => handleButton(goal)}className={`absolute right-6 top-1/2 transform -translate-y-1/2 ${styles.button}`}>
+            <button onClick={() => {
+              handleButton(goal);
+            }}className={`absolute right-6 top-1/2 transform -translate-y-1/2 ${styles.button}`}>
               <FaArrowCircleDown />
               </button>
         </div>

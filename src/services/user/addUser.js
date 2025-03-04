@@ -1,7 +1,6 @@
 import mysql from 'mysql2/promise'
 
 import { GetDBSettings } from "../db/connect"
-import { getUserByEmail } from './getUserByEmail';
 
 const connectionParams = GetDBSettings();
 

@@ -9,6 +9,7 @@ import Card from "@components/Card";
 
 import { getAllGoals } from "@services/api/goals";
 import { addUserSevice } from "@services/api/user";
+import { addGoalService } from "@services/api/goals";
 
 export default function Home() {
   
@@ -18,6 +19,8 @@ export default function Home() {
 
   const { isLoaded, user } = useUser();
 
+
+  // AddUser on loading (Needs to be reworked to prevent unecessaries requests)
   useEffect(() => {
     if (!isLoaded || !user) return;
 
@@ -33,11 +36,7 @@ export default function Home() {
   }, [isLoaded, user]);
 
 
-
-
-
-
-
+  //  Fetch Goals
   useEffect(() => {
     const fetchGoals = async () => {
       const response = await getAllGoals();
@@ -45,11 +44,31 @@ export default function Home() {
     } 
 
     fetchGoals()
-  }, [])
+  }, [goal])
 
+
+  //Add Goal
+  useEffect(() => {
+    if(goal === ""){
+      return
+    }
+    
+    const addNewGoal = async () =>{
+      try{
+        const response = await addGoalService(goal);
+      } catch (err) {
+        console.error("Error creating user:", err.message);
+      }
+    }
+
+    setGoal("");
+
+    addNewGoal();
+  }, [goal])
+  
 
   const handleButton = (goal) => {
-    setGoal(goal);
+    setGoal(g => goal);
   }
 
   const handleEdit = (id) => {
@@ -63,7 +82,7 @@ export default function Home() {
   return (
     <> 
             <div className="w-full h-screen flex flex-col items-center my-12">
-              <AddGoal handleButton={handleButton} />
+              <AddGoal handleButton={handleButton}/>
               <div className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
               {goalsList.length > 0 ? (
                 goalsList.map((goal) => (
@@ -76,7 +95,7 @@ export default function Home() {
                   />
                 ))
               ) : (
-                <p>No goals available.</p>
+                <p></p>
               )}
 
               </div>

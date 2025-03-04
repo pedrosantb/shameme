@@ -4,20 +4,15 @@ import { GetDBSettings } from "../db/connect"
 
 const connectionParams = GetDBSettings();
 
-export const addGoal = async (id, data) => {
-    const { title, recurrence } = data;
-    let days = null;
-    
-    if(data.days){
-        days = data.days;
-    } 
+export const addGoal = async (id, title) => {
+    const days = null;
 
     try {
         const connection = await mysql.createConnection(connectionParams);
     
-        let query = 'INSERT INTO Goals (title, recurrence, days, user_id) VALUES(?, ?, ?, ?)';
-        let values = [title, recurrence, days, id];
-
+        let query = 'INSERT INTO Goals (title, days, user_id) VALUES(?, ?, ?)';
+        let values = [title, days, id];
+        console.log(values);
         const [result] = await connection.execute(query, values);
 
         connection.end();

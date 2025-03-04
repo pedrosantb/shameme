@@ -15,3 +15,19 @@ export async function getAllGoals(){
         return {"error": err.message}
     }
 }
+
+export async function addGoalService(goal) {
+    try {
+        const response = await api.post("/goal/", {
+          title: goal
+        });
+
+        return response;
+
+
+      } catch (err) {
+        return {"Error creating user": err.message};
+      }
+
+    
+}
