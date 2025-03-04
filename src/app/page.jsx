@@ -16,6 +16,7 @@ export default function Home() {
   const [ goal, setGoal ] = useState("");
   const [ roast, setRoast ] = useState();
   const [ goalsList, setGoalsList ] = useState([]);
+  const [ reload, setReload ] = useState(1);
 
   const { isLoaded, user } = useUser();
 
@@ -44,31 +45,20 @@ export default function Home() {
     } 
 
     fetchGoals()
-  }, [goal])
+  }, [reload])
 
 
-  //Add Goal
-  useEffect(() => {
-    if(goal === ""){
-      return
-    }
-    
-    const addNewGoal = async () =>{
-      try{
-        const response = await addGoalService(goal);
-      } catch (err) {
-        console.error("Error creating user:", err.message);
-      }
+  const handleButton = async () => {
+    if(goal === "") return
+
+    try{
+      const response = await addGoalService(goal);
+    } catch (err) {
+      console.error("Error creating user:", err.message);
     }
 
+    setReload(r => !reload);
     setGoal("");
-
-    addNewGoal();
-  }, [goal])
-  
-
-  const handleButton = (goal) => {
-    setGoal(g => goal);
   }
 
   const handleEdit = (id) => {
@@ -82,7 +72,7 @@ export default function Home() {
   return (
     <> 
             <div className="w-full h-screen flex flex-col items-center my-12">
-              <AddGoal handleButton={handleButton}/>
+              <AddGoal handleButton={handleButton} goal={goal} setGoal={setGoal}/>
               <div className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
               {goalsList.length > 0 ? (
                 goalsList.map((goal) => (
