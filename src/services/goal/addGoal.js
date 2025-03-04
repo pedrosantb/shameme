@@ -12,7 +12,6 @@ export const addGoal = async (id, title) => {
     
         let query = 'INSERT INTO Goals (title, days, user_id) VALUES(?, ?, ?)';
         let values = [title, days, id];
-        console.log(values);
         const [result] = await connection.execute(query, values);
 
         connection.end();

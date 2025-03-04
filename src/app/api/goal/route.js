@@ -25,7 +25,6 @@ export async function POST(req) {
 
     try {
         const [response, status] = await addGoal(user[0].id, body.title);
-        console.log(response);
         return NextResponse.json({ response }, {status: status});        
     } catch (err) {
         

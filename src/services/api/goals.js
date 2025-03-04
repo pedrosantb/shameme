@@ -23,8 +23,6 @@ export async function addGoalService(goal) {
         });
 
         return response;
-
-
       } catch (err) {
         return {"Error creating user": err.message};
       }
