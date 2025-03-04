@@ -3,7 +3,7 @@ import { GetDBSettings } from "../db/connect";
 
 const connectionParams = GetDBSettings();
 
-export const UpdateGoal = async (id, data) => {
+export const updateGoal = async (id, data) => {
     const { title, recurrence, days, status } = data;
 
     if (!id) {

@@ -4,7 +4,7 @@ import { GetDBSettings } from "../db/connect"
 
 const connectionParams = GetDBSettings();
 
-export const AddGoal = async (id, data) => {
+export const addGoal = async (id, data) => {
     const { title, recurrence } = data;
     let days = null;
     

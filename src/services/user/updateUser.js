@@ -3,7 +3,7 @@ import { GetDBSettings } from "../db/connect";
 
 const connectionParams = GetDBSettings();
 
-export const UpdateUser = async (id, data) => {
+export const updateUser = async (id, data) => {
     const { phone, telegram_id } = data;
 
     if (!id) {

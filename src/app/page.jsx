@@ -2,36 +2,51 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
 
-import { newRoast } from "../services/api/roast";
 import AddGoal from "@components/AddGoal"
-import Card from "../components/Card";
+import Card from "@components/Card";
+
+import { getAllGoals } from "@services/api/goals";
+import { addUserSevice } from "@services/api/user";
 
 export default function Home() {
   
   const [ goal, setGoal ] = useState("");
   const [ roast, setRoast ] = useState();
+  const [ goalsList, setGoalsList ] = useState([]);
 
-  const tasks = [
-    { id: 1, title: "Go to the gym", type: "Daily" },
-    { id: 2, title: "Meal prep", type: "Weekly. Mon, Tue..." },
-    { id: 3, title: "Cook", type: "Daily" },
-  ];
+  const { isLoaded, user } = useUser();
+
+  useEffect(() => {
+    if (!isLoaded || !user) return;
+
+    const addUser = async () => {
+      try {
+        const response = await addUserSevice(user);
+      } catch (err) {
+        console.error("Error creating user:", err.message);
+      }
+    };
+
+    addUser();
+  }, [isLoaded, user]);
+
+
+
+
+
 
 
   useEffect(() => {
+    const fetchGoals = async () => {
+      const response = await getAllGoals();
+      setGoalsList(goals => response);
+    } 
 
-    const fetchLLM = async () => {
+    fetchGoals()
+  }, [])
 
-      const response = await newRoast(goal);
-
-      setRoast(r => response.response);
-    }
-
-    fetchLLM();
-
-
-  }, [goal])
 
   const handleButton = (goal) => {
     setGoal(goal);
@@ -50,15 +65,20 @@ export default function Home() {
             <div className="w-full h-screen flex flex-col items-center my-12">
               <AddGoal handleButton={handleButton} />
               <div className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                {tasks.map((task) => (
+              {goalsList.length > 0 ? (
+                goalsList.map((goal) => (
                   <Card
-                    key={task.id}
-                    title={task.title}
-                    type={task.type}
-                    onEdit={() => handleEdit(task.id)}
-                    onPause={() => handlePause(task.id)}
+                    key={goal.id}
+                    title={goal.title}
+                    type={goal.recurrence}
+                    onEdit={() => handleEdit(goal.id)}
+                    onPause={() => handlePause(goal.id)}
                   />
-                ))}
+                ))
+              ) : (
+                <p>No goals available.</p>
+              )}
+
               </div>
             </div>
 

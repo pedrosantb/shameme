@@ -1,10 +1,11 @@
 import mysql from 'mysql2/promise'
 
 import { GetDBSettings } from "../db/connect"
+import { getUserByEmail } from './getUserByEmail';
 
 const connectionParams = GetDBSettings();
 
-export const AddUser = async (data) => {
+export const addUser = async (data) => {
     try {
         const connection = await mysql.createConnection(connectionParams);
         
@@ -12,11 +13,12 @@ export const AddUser = async (data) => {
         let values = [data.email, data.username, data.phone]
 
         const [result] = await connection.execute(query, values);
-
+        
         connection.end();
 
         return [result, 200];
+        
     } catch (err) {
-        return [{error: err.message}, 500]
+        return [{"error": err.message}, 500]
     }
 }

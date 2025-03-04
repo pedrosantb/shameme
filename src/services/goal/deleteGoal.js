@@ -3,7 +3,7 @@ import { GetDBSettings } from "../db/connect";
 
 const connectionParams = GetDBSettings();
 
-export const DeleteGoal = async (id) => {
+export const deleteGoal = async (id) => {
     try {
         
         const connection = await mysql.createConnection(connectionParams);

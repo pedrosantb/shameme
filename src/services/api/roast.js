@@ -10,7 +10,7 @@ export async function newRoast(goal){
         console.log(data);
 
         return data;
-    } catch (error) {
-        return "Invalid request";
-      }
+    } catch (err) {
+        return {"error": err.message}
     }
+}

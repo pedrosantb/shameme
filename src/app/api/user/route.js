@@ -1,5 +1,5 @@
 import { NextResponse  } from "next/server";
-import { AddUser } from "@/services/user/addUser";
+import { addUser } from "@/services/user/addUser";
 
 export async function POST(req) {
     const body = await req.json();
@@ -9,7 +9,7 @@ export async function POST(req) {
     }
 
     try {
-        const [response, status] = await AddUser(body);
+        const [response, status] = await addUser(body);
         return NextResponse.json({ response }, {status: status});
 
     } catch (err) {
