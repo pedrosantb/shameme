@@ -1,14 +1,14 @@
 import { NextResponse  } from "next/server";
 import { currentUser, auth } from '@clerk/nextjs/server'
 
-import { UpdateGoal } from "@/services/goal/updateGoal";
-import { GetGoal } from "@/services/goal/getGoal";
+import { updateGoal } from "@/services/goal/updateGoal";
+import { getGoal } from "@/services/goal/getGoal";
 
-import { DeleteGoal } from "@/services/goal/deleteGoal";
+import { deleteGoal } from "@/services/goal/deleteGoal";
 
 export async function GET(req, { params }) {
 
-    const { id } = params;
+    const { id } = await params;
 
     const { userId } = await auth();
 
@@ -17,7 +17,7 @@ export async function GET(req, { params }) {
     }
 
     try {
-        const [response, status] = await GetGoal(id);
+        const [response, status] = await getGoal(id);
         return NextResponse.json({ response }, {status: status});
         
     } catch (err) {
@@ -26,7 +26,7 @@ export async function GET(req, { params }) {
 }
 
 export async function PUT(req, { params }) {
-    const { id } = params;
+    const { id } = await params;
     const body = await req.json();
 
     const { userId } = await auth();
@@ -40,7 +40,7 @@ export async function PUT(req, { params }) {
     }
 
     try {
-        const [response, status] = await UpdateGoal(id, body);
+        const [response, status] = await updateGoal(id, body);
         return NextResponse.json({ response }, {status: status});
 
     } catch (err) {
@@ -59,7 +59,7 @@ export async function DELETE(req, { params }){
       }
 
     try {
-        const [response, status] = await DeleteGoal(id);
+        const [response, status] = await deleteGoal(id);
         return NextResponse.json({ response }, {status: status});
         
     } catch (err) {

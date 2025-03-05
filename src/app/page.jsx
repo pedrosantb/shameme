@@ -10,6 +10,7 @@ import Card from "@components/Card";
 import { getAllGoals } from "@services/api/goals";
 import { addUserSevice } from "@services/api/user";
 import { addGoalService } from "@services/api/goals";
+import { toggleGoalService } from "../services/api/goals";
 
 export default function Home() {
   
@@ -37,14 +38,13 @@ export default function Home() {
   }, [isLoaded, user]);
 
 
-  //  Fetch Goals
   useEffect(() => {
     const fetchGoals = async () => {
       const response = await getAllGoals();
       setGoalsList(goals => response);
     } 
 
-    fetchGoals()
+    fetchGoals();
   }, [reload])
 
 
@@ -61,12 +61,19 @@ export default function Home() {
     setGoal("");
   }
 
+
   const handleEdit = (id) => {
     console.log("Editing task:", id);
   };
 
-  const handlePause = (id) => {
-    console.log("Pausing task:", id);
+  const handlePause = async (id, status) => {
+    try{
+      const response = await toggleGoalService(id ,status);
+    } catch (err) {
+      console.error("Error creating user:", err.message);
+    }
+    setReload(r => !reload);
+    
   };
 
   return (
@@ -80,8 +87,9 @@ export default function Home() {
                     key={goal.id}
                     title={goal.title}
                     type={goal.recurrence}
+                    status={goal.status}
                     onEdit={() => handleEdit(goal.id)}
-                    onPause={() => handlePause(goal.id)}
+                    onPause={() => handlePause(goal.id, goal.status)}
                   />
                 ))
               ) : (

@@ -24,8 +24,24 @@ export async function addGoalService(goal) {
 
         return response;
       } catch (err) {
-        return {"Error creating user": err.message};
-      }
+        return {"Error creating goal": err.message};
+      } 
+  }
 
+  export async function toggleGoalService(id, status) {
     
-}
+    let statusUpdate = "paused"
+    if(status == statusUpdate){
+      statusUpdate = "running"
+    }
+
+    try {
+      const response = await api.put(`/goal/${id}`,{
+        status: statusUpdate
+      });
+
+      return response;
+    } catch (err) {
+      return {"Error updating goal": err.message};
+    } 
+  }

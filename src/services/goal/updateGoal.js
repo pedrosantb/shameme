@@ -32,8 +32,8 @@ export const updateGoal = async (id, data) => {
 
 
     if (status) {
-        fieldsToUpdate.push('days = ?');
-        values.push(days);
+        fieldsToUpdate.push('status = ?');
+        values.push(status);
     }
 
 

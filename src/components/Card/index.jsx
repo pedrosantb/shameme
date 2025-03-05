@@ -6,7 +6,7 @@ import { useState } from "react";
 import styles from "./style.module.css"
 
 
-const Card = ({ title, type, onEdit, onPause }) => {
+const Card = ({ title, type, status, onEdit, onPause }) => {
   return (
 
     <div className={`p-4 ${styles.card}` }>
@@ -16,9 +16,15 @@ const Card = ({ title, type, onEdit, onPause }) => {
             <button onClick={onEdit}>
             Edit
             </button>
+
             <button className={styles.switchButton} onClick={onPause}>
-            Pause
+            {status == 'running' ? (
+              <p>pause</p>
+            ):(
+              <p>resume</p>
+            )}
             </button>
+
         </div>
   </div>
   )
