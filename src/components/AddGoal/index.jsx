@@ -4,9 +4,27 @@ import React from 'react'
 import { useState } from "react";
 import { FaRocket, FaArrowCircleDown } from "react-icons/fa";
 
+import { addGoalService } from "@services/api/goals";
+
 import styles from "./style.module.css"
 
-const AddGoal = ({ handleButton, goal, setGoal }) => {
+const AddGoal = ({ reload, setReload }) => {
+
+  const [ goal, setGoal ] = useState("");
+
+  const handleButton = async () => {
+    if(goal === "") return
+
+    try{
+      const response = await addGoalService(goal);
+    } catch (err) {
+      console.error("Error creating user:", err.message);
+    }
+
+    setReload(r => !reload);
+    setGoal("");
+  }
+
 
   return (
     <>

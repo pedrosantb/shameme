@@ -1,3 +1,5 @@
+// Query to update a goal on the database
+
 import mysql from 'mysql2/promise';
 import { GetDBSettings } from "../db/connect";
 
@@ -24,18 +26,15 @@ export const updateGoal = async (id, data) => {
         values.push(recurrence);
     }
 
-
     if (days) {
         fieldsToUpdate.push('days = ?');
         values.push(days);
     }
 
-
     if (status) {
         fieldsToUpdate.push('status = ?');
         values.push(status);
     }
-
 
     if (fieldsToUpdate.length === 0) {
         return [{ error: 'At least one field is required to update' }, 400];
@@ -48,6 +47,8 @@ export const updateGoal = async (id, data) => {
         const connection = await mysql.createConnection(connectionParams);
         const [result] = await connection.execute(query, values);
 
+        connection.end();
+            
         if (result.affectedRows === 0) {
             return [{ error: 'Goal not found' }, 404];
         }

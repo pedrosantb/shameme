@@ -9,7 +9,7 @@ export async function GET(req, { params }) {
     const { userId } = await auth();
 
     if (!userId) {
-      return new NextResponse.json('Unauthorized', { status: 401 })
+      return NextResponse.json('Unauthorized', { status: 401 })
     }
 
     const primaryEmail = userClerk.emailAddresses.find(email => email.id === userClerk.primaryEmailAddressId)?.emailAddress;
@@ -23,6 +23,8 @@ export async function GET(req, { params }) {
     }
 }
 
+
+// Needs to add verification
 export async function PUT(req, { params }) {
     const { id } = params;
     const body = await req.json();
