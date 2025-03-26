@@ -6,15 +6,15 @@ import { useState } from "react";
 import styles from "./style.module.css"
 
 
-const Card = ({ roast }) => {
+const Bubble = ({ roast }) => {
 
   return (
     <>
-      <div className={`p-4 ${styles.card}` }>
+      <div className={`p-4 ${styles.bubble}` }>
           <p>{ roast.message }</p>
       </div>
   </>
   )
 }
 
-export default Card
+export default Bubble

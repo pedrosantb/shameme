@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { useState } from "react";
-import { FaRocket, FaArrowCircleDown } from "react-icons/fa";
+import { FaRocket, FaArrowCircleUp } from "react-icons/fa";
 
-import { addGoalService } from "@services/api/goals";
+import { addRoastService } from "@services/api/roast";
 
 import styles from "./style.module.css"
 
-const AddGoal = ({ reload, setReload }) => {
+const AddRoast = ({ reload, setReload }) => {
 
   const [ goal, setGoal ] = useState("");
 
@@ -16,9 +16,9 @@ const AddGoal = ({ reload, setReload }) => {
     if(goal === "") return
 
     try{
-      const response = await addGoalService(goal);
+      const response = await addRoastService(goal);
     } catch (err) {
-      console.error("Error creating user:", err.message);
+      console.error("Error creating roast:", err.message);
     }
 
     setReload(r => !reload);
@@ -30,13 +30,13 @@ const AddGoal = ({ reload, setReload }) => {
     <>
         <div className='relative w-2/3 text-4xl'>
             <FaRocket className='absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-500' />
-            <input type="text" value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Add a goal..." className={` w-full ${styles.input}`} />
+            <input type="text" value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Help me with a goal..." className={` w-full ${styles.input}`} />
             <button onClick={() => {handleButton()}} className={`absolute right-6 top-1/2 transform -translate-y-1/2 ${styles.button}`}>
-              <FaArrowCircleDown />
-              </button>
+              <FaArrowCircleUp />
+            </button>
         </div>
     </>
   )
 }
 
-export default AddGoal;
+export default AddRoast;

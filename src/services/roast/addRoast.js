@@ -6,21 +6,22 @@ import { GetDBSettings } from "../db/connect"
 
 const connectionParams = GetDBSettings();
 
-export const addGoal = async (id, title) => {
-    const days = null;
+export const addRoast = async (id, message, goal) => {
+
     try {
         const connection = await mysql.createConnection(connectionParams);
-        let query = 'INSERT INTO Goals (title, days, user_id) VALUES(?, ?, ?)';
-        let values = [title, days, id];
+        let query = 'INSERT INTO Roasts (message, goal, user_id) VALUES(?, ?, ?)';
+        let values = [message, goal, id];
         const [result] = await connection.execute(query, values);
 
         connection.end();
 
         if (result.affectedRows === 0) {
-            return [{ error: 'Goal not added' }, 404];
+            return [{ error: 'Roast not added' }, 404];
         }
-        return [{ message: 'Goal added successfully' }, 200];
+        return [{ message: 'Roast added successfully' }, 200];
     } catch (err) {
+        cosole.log(err);
         return [{error: err.message}, 500]
     }
 }

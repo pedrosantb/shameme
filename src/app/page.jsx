@@ -1,73 +1,59 @@
 'use client'
 
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useUser } from "@clerk/nextjs";
 
-import AddGoal from "@components/AddGoal"
-import Card from "@components/Card";
+import AddRoast from "@components/AddRoast";
+import Hero from "@components/Hero";
+import Card from "@components/Card"; 
+import Bubble from "@components/Bubble"; 
 
-import { getAllGoalsService } from "@services/api/goals";
-import { addUserSevice } from "@services/api/user";
-
+import { getAllRoastsService } from "@services/api/roast";
 
 export default function Home() {
-  
-  const [ goalsList, setGoalsList ] = useState([]);
-
-  const [ reload, setReload ] = useState(1);
-
+  const [roastList, setRoastList] = useState([]);
+  const [reload, setReload] = useState(1);
   const { isLoaded, user } = useUser();
 
-  // AddUser on loading (Needs to be reworked to prevent unecessaries requests)
+  
   useEffect(() => {
     if (!isLoaded || !user) return;
 
-    const addUser = async () => {
+    const fetchRoasts = async () => {
       try {
-        const response = await addUserSevice(user);
+        const response = await getAllRoastsService();
+        console.log('Fetched roasts:', response);
+
+
+        setRoastList(response);
+        console.log(roastList);
+
       } catch (err) {
-        console.error("Error creating user:", err.message);
+        console.error("Error fetching roasts:", err.message);
       }
     };
-    addUser();
-  }, [isLoaded, user]);
 
-
-  // Reloads goal list
-  useEffect(() => {
-    const fetchGoals = async () => {
-      const response = await getAllGoalsService();
-      // console.log(response);
-      setGoalsList(response);
-    } 
-
-    fetchGoals();
-    console.log(goalsList);
-  }, [reload])
+    fetchRoasts();
+  }, [isLoaded, user, reload]);
 
 
   return (
-    <>
-            <div className="w-full h-screen flex flex-col items-center my-12">
-              
-              <AddGoal reload={reload} setReload={setReload}/>
-              <div className="w-2/3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-        
-                {goalsList.length > 0 ? (
-                  goalsList.map((goal) => (
-                    <Card
-                      key={goal.id}
-                      goal={goal}
-                    />
-                  ))
-                ) : (
-                  <p></p>
-                )}
+<div className="w-full h-screen flex flex-col items-center my-12">
+  <div className="w-full h-1/4 flex flex-col items-center">
+    <Hero className="mx-10 h-full" />
+  </div>
 
-              </div>
+  <div className="w-2/3 flex p-4 flex-grow">
+    {roastList.length > 0 ? 
+      <Bubble roast={roastList.slice(-1)[0]} />
+      : (
+        <p>No roasts yet</p>
+      )}
+  </div>
 
-            </div>
-    </>
+  <div className="w-full flex items-center justify-center p-6">
+    <AddRoast reload={reload} setReload={setReload} />
+  </div>
+</div>
   );
 }
