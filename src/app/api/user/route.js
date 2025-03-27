@@ -2,14 +2,22 @@ import { NextResponse  } from "next/server";
 import { addUser } from "@/services/user/addUser";
 
 export async function POST(req) {
-    const body = await req.json();
+    const { data } = await req.json();
 
-    if (!body || Object.keys(body).length === 0) {
+    if (!data || Object.keys(data).length === 0) {
         return NextResponse.json({ error: 'Request body cannot be empty' }, { status: 400 });
     }
 
+    const newUser = {
+        email: data.email_addresses[0].email_address,
+        username: data.username ? data.username : `${data.first_name} ${data.last_name}`,
+        phone: data.phone_numbers[0] ? data.phone_numbers[0] : null
+    }
+
+    console.log(newUser);
+
     try {
-        const [response, status] = await addUser(body);
+        const [response, status] = await addUser(newUser);
         return NextResponse.json({ response }, {status: status});
 
     } catch (err) {

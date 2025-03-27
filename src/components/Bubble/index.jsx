@@ -10,11 +10,12 @@ const Bubble = ({ roast }) => {
 
   return (
     <>
-      <div className={`p-4 ${styles.bubble}` }>
+      <div className={`p-4 w-full ${styles.bubble}` }>
+          <p>Do you want to { roast.goal }?</p>
           <p>{ roast.message }</p>
       </div>
   </>
   )
 }
 
-export default Bubble
+export default Bubble;

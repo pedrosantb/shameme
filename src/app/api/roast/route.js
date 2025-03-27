@@ -38,7 +38,7 @@ export async function POST(req) {
         Please prented you are her for a second and belittle me. in order to help me achive: ${body.goal}.
         Please Be as mean as possible. I will be motivated.
         this roast should be short and with no introductions or talking, just the roast
-        please keep it in max 400 characters. I want them to be really about the goal itself only, use a simple language.
+        please keep it in max 600 characters. I want them to be really about the goal itself only, use a simple language.
         You can offend me as much as you can, I will be pleased`;
 
         console.log(body.goal);

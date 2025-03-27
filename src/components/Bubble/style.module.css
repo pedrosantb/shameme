@@ -5,7 +5,7 @@
     padding: 18px 28px;
     position: relative;
 
-    font-size: x-large;
+    font-size: 2rem;
 }
 
 .bubble::after {
